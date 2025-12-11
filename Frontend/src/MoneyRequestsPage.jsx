@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
  import API_BASE_URL from "./config";
-const API_BASE_URL = "http://localhost:5000/api";
+
  
 export default function MoneyRequestsPage() {
   const [type, setType] = useState("DEPOSIT");
@@ -33,8 +33,8 @@ export default function MoneyRequestsPage() {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios.post(
-        `${API_BASE_URL}/money-requests`,
+await axios.post(
+  `${API_BASE_URL}/money-requests`,
         { type, amount, method, note },
         { headers: { Authorization: `Bearer ${token}` } }
       );
