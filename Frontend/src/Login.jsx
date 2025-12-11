@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
+import API_BASE_URL from "./config";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -30,12 +31,10 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        form
-      );
+      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, form);
 
-      toast.success("Login successful!");
+        
+  toast.success("Login successful!");
 
       // Save CLIENT TOKEN ONLY
       localStorage.setItem("token", res.data.token);
