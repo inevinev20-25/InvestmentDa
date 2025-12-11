@@ -16,7 +16,6 @@ export default function Signup() {
     fullName: "",
     email: "",
     password: "",
-    accountType: "single",
     dob: "",
     phone: "",
     address1: "",
@@ -27,16 +26,14 @@ export default function Signup() {
     country: "",
   });
 
-  // Handle input change
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Submit Form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Frontend validation
+    // Required field validation
     if (
       !form.title ||
       !form.fullName ||
@@ -54,12 +51,24 @@ export default function Signup() {
       return;
     }
 
+    // Password validation
+    if (form.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
+    // Phone validation
+    if (!/^\d+$/.test(form.phone)) {
+      toast.error("Phone number must contain only digits");
+      return;
+    }
+
     try {
       setLoading(true);
 
       const payload = {
         ...form,
-        accountType: activeTab,
+        accountType: activeTab, // single or joint
       };
 
       const res = await axios.post(`${API_BASE_URL}/api/auth/register`, payload);
@@ -82,6 +91,7 @@ export default function Signup() {
 
       <div className="signup-container">
         <div className="signup-card">
+
           {/* ---- TAB SWITCH ---- */}
           <div className="tab-row">
             <button
@@ -106,7 +116,11 @@ export default function Signup() {
             <div className="row">
               <div className="field">
                 <label>Title *</label>
-                <select name="title" value={form.title} onChange={handleChange}>
+                <select
+                  name="title"
+                  value={form.title}
+                  onChange={handleChange}
+                >
                   <option value="">Select</option>
                   <option value="Mr">Mr</option>
                   <option value="Ms">Ms</option>
@@ -168,7 +182,7 @@ export default function Signup() {
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
-                  placeholder="+1 000 000 0000"
+                  placeholder="0000000000"
                 />
               </div>
             </div>
