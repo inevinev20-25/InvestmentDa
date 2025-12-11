@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "./config";
  
 export default function Profile() {
   const token = localStorage.getItem("token");
@@ -12,8 +13,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
  
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/auth/me", {
+   axios.get(`${API_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setUser(res.data.user))
@@ -29,7 +29,7 @@ export default function Profile() {
     try {
       setLoading(true);
       await axios.post(
-        "http://localhost:5000/api/auth/change-password",
+  `${API_BASE_URL}/api/auth/change-password`,
         { currentPassword, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );
