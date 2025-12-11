@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_BASE_URL from "./config";
 
 export default function AdminSettings() {
   const admin = JSON.parse(localStorage.getItem("adminInfo"));
@@ -20,7 +21,8 @@ export default function AdminSettings() {
       setLoading(true);
 
       const res = await axios.post(
-        `http://localhost:5000/api/admin/users/${admin.id}/reset-password`,
+         const res = await axios.post(
+        `${API_BASE_URL}/api/admin/users/${admin.id}/reset-password`,,
         { password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
