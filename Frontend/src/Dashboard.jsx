@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
- 
+import API_BASE_URL from "./config";
  
 import ChangePasswordModal from "./ChangePasswordModal";
 import ActiveInvestments from "./ActiveInvestments";
@@ -31,7 +31,7 @@ export default function Dashboard() {
  
   const fetchMe = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/me", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -48,7 +48,7 @@ export default function Dashboard() {
   const fetchUserDocs = async (userId) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/documents/${userId}`,
+        const res = await fetch(`${API_BASE_URL}/api/documents/${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();
@@ -67,7 +67,7 @@ export default function Dashboard() {
       formData.append("type", docType);
  
       const res = await fetch(
-        "http://localhost:5000/api/documents/upload",
+      const res = await fetch(`${API_BASE_URL}/api/documents/upload`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
@@ -201,11 +201,11 @@ export default function Dashboard() {
                         {doc.status}
                       </span>
                       <a
-                        className="btn btn-outline-secondary btn-sm"
-                        href={`http://localhost:5000/uploads/kyc/${doc.filename}`}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
+  className="btn btn-outline-secondary btn-sm"
+  href={`${API_BASE_URL}/uploads/kyc/${doc.filename}`}
+  target="_blank"
+  rel="noreferrer"
+>
                         View
                       </a>
                     </div>
