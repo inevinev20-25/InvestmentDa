@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./UserDetails.css";
+import API_BASE_URL from "./config";
 
 import {
   FiEdit,
@@ -47,7 +48,7 @@ export default function UserDetails() {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+     const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
 
@@ -79,9 +80,9 @@ export default function UserDetails() {
   const updateKyc = async (docId, action) => {
     try {
       const url =
-        action === "approved"
-          ? `http://localhost:5000/api/documents/verify/${docId}`
-          : `http://localhost:5000/api/documents/reject/${docId}`;
+  action === "approved"
+    ? `${API_BASE_URL}/api/documents/verify/${docId}`
+    : `${API_BASE_URL}/api/documents/reject/${docId}`;
 
       const res = await fetch(url, {
         method: "POST",
@@ -99,7 +100,7 @@ export default function UserDetails() {
     if (!amount || amount <= 0) return alert("Enter valid amount");
 
     try {
-      await fetch(`http://localhost:5000/api/admin/users/${id}/balance`, {
+      await fetch(`${API_BASE_URL}/api/admin/users/${id}/balance`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +118,7 @@ export default function UserDetails() {
 
   const saveEdit = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+     const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -140,7 +141,7 @@ export default function UserDetails() {
     if (newPassword.length < 6) return alert("Password too short!");
 
     try {
-      await fetch(`http://localhost:5000/api/admin/users/${id}/reset-password`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -158,7 +159,7 @@ export default function UserDetails() {
 
   const deleteUser = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/users/${id}`, {
+     const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`,{
         method: "DELETE",
         headers: { Authorization: `Bearer ${adminToken}` },
       });
@@ -246,10 +247,11 @@ export default function UserDetails() {
 
             <div className="kyc-actions">
               <a
-                className="kyc-view-link"
-                href={`http://localhost:5000/uploads/kyc/${doc.filename}`}
-                target="_blank"
-              >
+  className="kyc-view-link"
+  href={`${API_BASE_URL}/uploads/kyc/${doc.filename}`}
+  target="_blank"
+  rel="noreferrer"
+>
                 View
               </a>
 
