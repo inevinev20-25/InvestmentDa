@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import API_BASE_URL from "./config";
  
 export default function ActiveInvestments() {
   const userId = localStorage.getItem("userId");
@@ -17,7 +18,7 @@ export default function ActiveInvestments() {
   // FETCH INVESTMENTS
   const fetchInvestments = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/investments/", {
+       const res = await fetch(`${API_BASE_URL}/api/investments/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -38,7 +39,7 @@ export default function ActiveInvestments() {
     }
  
     try {
-      const res = await fetch("http://localhost:5000/api/investments/add", {
+     const res = await fetch(`${API_BASE_URL}/api/investments/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
