@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import API_BASE_URL from "./config";
 import "./Signup.css";
 
 export default function Signup() {
@@ -61,10 +62,7 @@ export default function Signup() {
         accountType: activeTab,
       };
 
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        payload
-      );
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, payload);
 
       if (res.data.success) {
         toast.success("Account created successfully!");
