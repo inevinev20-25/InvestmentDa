@@ -1,0 +1,50 @@
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #f6f8fb;
+}
+
+/* MAIN CONTENT */
+.layout-content {
+  flex: 1;
+  padding: 25px;
+  margin-left: 240px;
+  transition: margin-left 0.3s ease;
+}
+
+/* When sidebar opened on mobile, push content */
+.layout-content.shift {
+  margin-left: 240px;
+}
+
+/* Toggle Button */
+.toggle-btn {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 26px;
+  background: #1c2635;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  z-index: 2000;
+  cursor: pointer;
+}
+
+/* MOBILE/TABLET */
+@media (max-width: 900px) {
+  .toggle-btn {
+    display: block;
+  }
+
+  .layout-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .layout-content.shift {
+    margin-left: 240px;
+  }
+}

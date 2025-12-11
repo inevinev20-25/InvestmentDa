@@ -1,0 +1,110 @@
+.login-container {
+  min-height: 100vh;
+  background: #f4f7f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.login-card {
+  width: 360px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.5s ease;
+}
+
+.login-title {
+  text-align: center;
+  color: #333;
+  font-size: 22px;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.login-field label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.login-field input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #cfd6da;
+  font-size: 15px;
+  background: #fafafa;
+  transition: 0.25s;
+}
+
+.login-field input:focus {
+  border-color: #70dde0;
+  background: #ffffff;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.show-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #70dde0;
+  font-weight: 600;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: #70dde0;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #5bc2c5;
+}
+
+.login-btn:disabled {
+  background: #a0e7e9;
+  cursor: not-allowed;
+}
+
+.login-switch {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.login-switch a {
+  color: #70dde0;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

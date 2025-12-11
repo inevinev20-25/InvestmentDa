@@ -1,0 +1,195 @@
+/* PAGE WRAPPER FIX */
+.admin-main-page {
+  padding: 35px;
+  padding-top: 20px;
+}
+
+/* ===========================
+   OVERLAY
+=========================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+  padding: 20px;
+}
+
+/* ===========================
+   MODAL CONTENT
+=========================== */
+.modal-content {
+  width: 450px;
+  max-width: 95%;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* CLOSE BUTTON */
+.modal-close {
+  font-size: 22px;
+  cursor: pointer;
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  color: #444;
+}
+
+.modal-close:hover {
+  color: #000;
+}
+
+/* INPUT GROUP */
+.input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+}
+
+.modal-content input {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* SAVE BUTTON */
+.save-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 12px;
+  background: #007bff;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #0056c7;
+}
+
+/* MAIN USER CARD */
+.user-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.user-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.icon-btn {
+  font-size: 22px;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+.icon-btn.delete {
+  color: red;
+}
+
+/* BALANCE CARD */
+.balance-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.balance-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.balance-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.add-btn {
+  flex: 1;
+  background: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.subtract-btn {
+  flex: 1;
+  background: #e53935;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* KYC SECTION */
+.kyc-section {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.kyc-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.kyc-view-link {
+  color: #017bff;
+}
+
+/* BADGES */
+.badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+}
+
+.badge-verified {
+  background: #4caf50;
+}
+
+.badge-rejected {
+  background: #e53935;
+}
