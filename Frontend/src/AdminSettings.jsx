@@ -10,18 +10,19 @@ export default function AdminSettings() {
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState(null);
 
+  // Load admin profile from localStorage
   useEffect(() => {
     setProfile(admin);
   }, []);
 
+  // Reset Admin Password
   const updatePassword = async () => {
     if (!password) return alert("Enter a new password");
 
     try {
       setLoading(true);
 
-      const res = await axios.post(
-         const res = await axios.post(
+      await axios.post(
         `${API_BASE_URL}/api/admin/users/${admin.id}/reset-password`,
         { password },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -44,11 +45,12 @@ export default function AdminSettings() {
 
       <h2 className="settings-title">Admin Settings</h2>
 
-      {/* Profile Card */}
+      {/* Admin Profile */}
       <div className="settings-card">
         <h3>Admin Profile</h3>
 
         <div className="settings-info">
+
           <div className="settings-row">
             <span className="label">Name:</span>
             <span className="value">{profile.fullName}</span>
@@ -63,10 +65,11 @@ export default function AdminSettings() {
             <span className="label">Role:</span>
             <span className="value">{profile.role}</span>
           </div>
+
         </div>
       </div>
 
-      {/* Change Password Card */}
+      {/* Password Change */}
       <div className="settings-card">
         <h3>Change Password</h3>
 
@@ -78,13 +81,17 @@ export default function AdminSettings() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="settings-btn" onClick={updatePassword} disabled={loading}>
+        <button
+          className="settings-btn"
+          onClick={updatePassword}
+          disabled={loading}
+        >
           {loading ? "Updating..." : "Update Password"}
         </button>
       </div>
 
-      {/* CSS INSIDE SAME FILE */}
-      <style jsx>{`
+      {/* Inline CSS */}
+      <style>{`
         .admin-settings-container {
           max-width: 700px;
           margin: 30px auto;
@@ -184,3 +191,4 @@ export default function AdminSettings() {
     </div>
   );
 }
+
