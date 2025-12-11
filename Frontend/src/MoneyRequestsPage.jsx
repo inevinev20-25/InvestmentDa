@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
- 
+ import API_BASE_URL from "./config";
 const API_BASE_URL = "http://localhost:5000/api";
  
 export default function MoneyRequestsPage() {
