@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import API_BASE_URL from "./config";
 export default function AdminInvestments() {
   const adminToken = localStorage.getItem("adminToken");
 
@@ -16,7 +16,7 @@ export default function AdminInvestments() {
   }, []);
 
   const fetchInvestments = async () => {
-    const res = await fetch("http://localhost:5000/api/admin/investments", {
+   const res = await fetch(`${API_BASE_URL}/api/admin/investments`, {
       headers: { Authorization: `Bearer ${adminToken}` },
     });
 
@@ -34,7 +34,7 @@ export default function AdminInvestments() {
   };
 
   const saveEdit = async () => {
-    await fetch(`http://localhost:5000/api/admin/investments/${editing._id}`, {
+    const res = await fetch(`${API_BASE_URL}/api/admin/investments/${editing._id}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${adminToken}`,
@@ -50,7 +50,7 @@ export default function AdminInvestments() {
   const deleteInv = async (id) => {
     if (!window.confirm("Delete this investment?")) return;
 
-    await fetch(`http://localhost:5000/api/admin/investments/${id}`, {
+    await fetch(`${API_BASE_URL}/api/admin/investments/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${adminToken}` },
     });
