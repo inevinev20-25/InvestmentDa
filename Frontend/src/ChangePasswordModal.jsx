@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiX } from "react-icons/fi";
+import API_BASE_URL from "./config";
 
 export default function ChangePasswordModal({ onClose }) {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -19,7 +20,7 @@ export default function ChangePasswordModal({ onClose }) {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/auth/change-password", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/change-password`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
