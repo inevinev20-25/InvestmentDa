@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE_URL from "./config";
  
 export default function TransactionHistory() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
  
-  const API_BASE = "http://localhost:5000/api";
+  
  
   useEffect(() => {
     fetchHistory();
@@ -14,7 +15,7 @@ export default function TransactionHistory() {
  
   const fetchHistory = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/money-requests/my`, {
+      const res = await axios.get(`${API_BASE_URL}/money-requests/my`,{
         headers: { Authorization: `Bearer ${token}` },
       });
  
