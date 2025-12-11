@@ -33,13 +33,22 @@ export default function Login() {
 
       const res = await axios.post(`${API_BASE_URL}/api/auth/login`, form);
 
-        
-  toast.success("Login successful!");
+      // BLOCK ADMIN USERS
+      if (res.data.user.role === "admin") {
+        toast.error("Please login through Admin Login page");
+        return;
+      }
 
-      // Save CLIENT TOKEN ONLY
+      toast.success("Login successful!");
+
+      // Save CLIENT TOKEN
       localStorage.setItem("token", res.data.token);
 
+      // Optional: Save user info to avoid extra /me request
+      localStorage.setItem("userInfo", JSON.stringify(res.data.user));
+
       setTimeout(() => navigate("/dashboard"), 1200);
+
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
     } finally {
