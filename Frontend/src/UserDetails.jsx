@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./UserDetails.css";
-import API_BASE_URL from "./config";
-
 import {
   FiEdit,
   FiTrash2,
@@ -11,6 +8,8 @@ import {
   FiCheckCircle,
   FiXCircle
 } from "react-icons/fi";
+import API_BASE_URL from "./config";
+import "./UserDetails.css";
 
 export default function UserDetails() {
   const { id } = useParams();
@@ -42,17 +41,24 @@ export default function UserDetails() {
     accountType: "",
   });
 
+  // Redirect if admin not logged in
+  useEffect(() => {
+    if (!adminToken) navigate("/admin-login");
+  }, [adminToken]);
+
   useEffect(() => {
     fetchUser();
   }, []);
 
+  // Fetch user & documents
   const fetchUser = async () => {
     try {
-     const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
 
       const data = await res.json();
+      if (!data.success) return;
 
       setUser(data.user);
       setDocs(data.documents || []);
@@ -62,7 +68,7 @@ export default function UserDetails() {
         fullName: data.user.fullName || "",
         email: data.user.email || "",
         phone: data.user.phone || "",
-        dob: data.user.dob || "",
+        dob: data.user.dob?.split("T")[0] || "",
         address1: data.user.address1 || "",
         address2: data.user.address2 || "",
         city: data.user.city || "",
@@ -71,18 +77,18 @@ export default function UserDetails() {
         country: data.user.country || "",
         accountType: data.user.accountType || "",
       });
-
     } catch (err) {
       console.error("Error loading user:", err);
     }
   };
 
+  // KYC approve/reject
   const updateKyc = async (docId, action) => {
     try {
       const url =
-  action === "approved"
-    ? `${API_BASE_URL}/api/documents/verify/${docId}`
-    : `${API_BASE_URL}/api/documents/reject/${docId}`;
+        action === "approved"
+          ? `${API_BASE_URL}/api/documents/verify/${docId}`
+          : `${API_BASE_URL}/api/documents/reject/${docId}`;
 
       const res = await fetch(url, {
         method: "POST",
@@ -90,17 +96,25 @@ export default function UserDetails() {
       });
 
       const data = await res.json();
-      if (data.success) fetchUser();
+      if (data.success) {
+        alert(`Document ${action}`);
+        fetchUser();
+      }
     } catch (err) {
       console.error("KYC update error:", err);
     }
   };
 
+  // Balance update
   const updateBalance = async (type) => {
     if (!amount || amount <= 0) return alert("Enter valid amount");
 
+    if (type === "subtract" && parseFloat(amount) > user.balance) {
+      return alert("Amount exceeds user balance!");
+    }
+
     try {
-      await fetch(`${API_BASE_URL}/api/admin/users/${id}/balance`,{
+      await fetch(`${API_BASE_URL}/api/admin/users/${id}/balance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -116,9 +130,10 @@ export default function UserDetails() {
     }
   };
 
+  // Save edited user
   const saveEdit = async () => {
     try {
-     const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -137,11 +152,12 @@ export default function UserDetails() {
     }
   };
 
+  // Reset user password
   const resetPassword = async () => {
-    if (newPassword.length < 6) return alert("Password too short!");
+    if (newPassword.length < 6) return alert("Password must be at least 6 characters");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}/reset-password`, {
+      await fetch(`${API_BASE_URL}/api/admin/users/${id}/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -150,16 +166,18 @@ export default function UserDetails() {
         body: JSON.stringify({ password: newPassword }),
       });
 
+      alert("Password reset successfully!");
       setShowPassword(false);
       setNewPassword("");
     } catch {
-      alert("Error resetting password");
+      alert("Password reset failed");
     }
   };
 
+  // Delete user
   const deleteUser = async () => {
     try {
-     const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`,{
+      const res = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${adminToken}` },
       });
@@ -179,7 +197,7 @@ export default function UserDetails() {
       <h2>User Details</h2>
 
       <p className="back-link" onClick={() => navigate("/admin/users")}>
-        Back to Users
+        ← Back to Users
       </p>
 
       {/* USER INFO CARD */}
@@ -194,19 +212,17 @@ export default function UserDetails() {
           </div>
         </div>
 
-        <p><strong>Title:</strong> {user.title}</p>
         <p><strong>Name:</strong> {user.fullName}</p>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Phone:</strong> {user.phone}</p>
-        <p><strong>DOB:</strong> {user.dob}</p>
-        <p><strong>Address1:</strong> {user.address1}</p>
-        <p><strong>Address2:</strong> {user.address2}</p>
+        <p><strong>DOB:</strong> {new Date(user.dob).toLocaleDateString()}</p>
+        <p><strong>Address:</strong> {user.address1}, {user.address2}</p>
         <p><strong>City:</strong> {user.city}</p>
         <p><strong>State:</strong> {user.state}</p>
         <p><strong>Postal Code:</strong> {user.postalCode}</p>
         <p><strong>Country:</strong> {user.country}</p>
         <p><strong>Account Type:</strong> {user.accountType}</p>
-        <p><strong>Balance:</strong> A${user.balance}</p>
+        <p><strong>Balance:</strong> A${user.balance.toFixed(2)}</p>
         <p><strong>KYC Status:</strong> {user.kycStatus}</p>
       </div>
 
@@ -247,11 +263,11 @@ export default function UserDetails() {
 
             <div className="kyc-actions">
               <a
-  className="kyc-view-link"
-  href={`${API_BASE_URL}/uploads/kyc/${doc.filename}`}
-  target="_blank"
-  rel="noreferrer"
->
+                className="kyc-view-link"
+                href={`${API_BASE_URL}/uploads/kyc/${doc.filename}`}
+                target="_blank"
+                rel="noreferrer"
+              >
                 View
               </a>
 
@@ -280,8 +296,9 @@ export default function UserDetails() {
         ))}
       </div>
 
-      {/* ===================== MODALS ===================== */}
+      {/* ================= MODALS ================= */}
 
+      {/* EDIT USER MODAL */}
       {showEdit && (
         <div className="modal">
           <div className="modal-content">
@@ -292,6 +309,7 @@ export default function UserDetails() {
               <div className="input-group" key={field}>
                 <label>{field}</label>
                 <input
+                  type={field === "dob" ? "date" : "text"}
                   value={editForm[field]}
                   onChange={(e) =>
                     setEditForm({ ...editForm, [field]: e.target.value })
@@ -300,11 +318,14 @@ export default function UserDetails() {
               </div>
             ))}
 
-            <button className="save-btn" onClick={saveEdit}>Save</button>
+            <button className="save-btn" onClick={saveEdit}>
+              Save Changes
+            </button>
           </div>
         </div>
       )}
 
+      {/* RESET PASSWORD */}
       {showPassword && (
         <div className="modal">
           <div className="modal-content">
@@ -319,17 +340,18 @@ export default function UserDetails() {
             />
 
             <button className="save-btn" onClick={resetPassword}>
-              Reset
+              Reset Password
             </button>
           </div>
         </div>
       )}
 
+      {/* DELETE USER */}
       {showDelete && (
         <div className="modal">
           <div className="modal-content">
             <FiX className="modal-close" onClick={() => setShowDelete(false)} />
-            <h3>Delete User?</h3>
+            <h3>Delete User</h3>
             <p>This action cannot be undone.</p>
 
             <button className="delete-btn" onClick={deleteUser}>
