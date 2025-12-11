@@ -22,7 +22,7 @@ export default function AdminSettings() {
 
       const res = await axios.post(
          const res = await axios.post(
-        `${API_BASE_URL}/api/admin/users/${admin.id}/reset-password`,,
+        `${API_BASE_URL}/api/admin/users/${admin.id}/reset-password`,
         { password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
