@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API_BASE_URL from "./config";
- 
+
 export default function TransactionHistory() {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
- 
-  
- 
+
   useEffect(() => {
     fetchHistory();
   }, []);
- 
+
   const fetchHistory = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/money-requests/my`,{
+      const res = await axios.get(`${API_BASE_URL}/api/money-requests/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
- 
-      const filtered = res.data.filter((t) =>
+
+      const list = res.data.requests || [];
+
+      const filtered = list.filter((t) =>
         ["APPROVED", "COMPLETED", "REJECTED"].includes(t.status)
       );
- 
+
       setTransactions(filtered);
     } catch (err) {
       console.error("Error fetching history:", err);
@@ -30,7 +30,7 @@ export default function TransactionHistory() {
       setLoading(false);
     }
   };
- 
+
   const badgeClass = (status) => {
     switch (status) {
       case "APPROVED":
@@ -43,9 +43,9 @@ export default function TransactionHistory() {
         return "badge bg-secondary";
     }
   };
- 
+
   if (loading) return <p className="text-center py-4">Loading...</p>;
- 
+
   return (
     <div className="container-fluid py-4" style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}>
       <div className="row justify-content-center">
@@ -53,7 +53,7 @@ export default function TransactionHistory() {
           <div className="card shadow-sm rounded-4">
             <div className="card-body p-4 p-lg-5">
               <h3 className="fw-bold mb-4 text-center">Transaction History</h3>
- 
+
               {transactions.length === 0 ? (
                 <p className="text-muted text-center">No completed transactions found.</p>
               ) : (
