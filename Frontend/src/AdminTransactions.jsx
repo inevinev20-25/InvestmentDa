@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import API_BASE_URL from "./config";
  
 export default function AdminTransactions() {
   const adminToken = localStorage.getItem("adminToken");
@@ -11,7 +12,7 @@ export default function AdminTransactions() {
  
   const fetchRequests = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/admin/transactions", {
+      const res = await fetch(`${API_BASE_URL}/api/admin/transactions`, {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       const data = await res.json();
@@ -21,7 +22,7 @@ export default function AdminTransactions() {
  
   const updateStatus = async (id, status) => {
     try {
-      await fetch(`http://localhost:5000/api/admin/transactions/${id}`, {
+      await fetch(`${API_BASE_URL}/api/admin/transactions/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
